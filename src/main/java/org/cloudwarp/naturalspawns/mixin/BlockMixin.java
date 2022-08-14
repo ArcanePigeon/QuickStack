@@ -1,38 +1,47 @@
 package org.cloudwarp.naturalspawns.mixin;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.block.*;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import org.cloudwarp.naturalspawns.registry.NSProperties;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import org.cloudwarp.naturalspawns.components.NSChunkComponent;
+import org.cloudwarp.naturalspawns.registry.NSComponents;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.HashSet;
+
 @Mixin(Block.class)
-	public abstract class BlockMixin {
-	@Shadow protected abstract void setDefaultState (BlockState state);
+public abstract class BlockMixin {
 
-	@Shadow @Final protected StateManager<Block, BlockState> stateManager;
-	private static BooleanProperty NS_NATURAL = NSProperties.NS_NATURAL;
-
-	@ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;appendProperties(Lnet/minecraft/state/StateManager$Builder;)V"))
-	private StateManager.Builder<Block, BlockState> naturalSpawnsAppendNaturalProperty(StateManager.Builder<Block, BlockState> builder){
-		return builder.add(NS_NATURAL);
+	@Inject(method = "onPlaced", at = @At("HEAD"))
+	private void naturalSpawnsSetPlaced (World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack, CallbackInfo ci) {
+		if(!world.isClient()) {
+			NSChunkComponent chunkComponent = NSComponents.NATURAL_SPAWNS_CHUNK.get(world.getChunk(pos));
+			HashSet<BlockPos> placed = chunkComponent.getPlaced();
+			if (! placed.contains(pos)) {
+				System.out.println("Placed");
+				placed.add(pos);
+				chunkComponent.save();
+			}
+		}
 	}
-	@ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;setDefaultState(Lnet/minecraft/block/BlockState;)V"))
-	private BlockState naturalSpawnsSetNaturalDefaultState(BlockState state){
-		return state.with(NS_NATURAL,false);
-	}
-	@Inject(method = "getPlacementState", at = @At("RETURN"), cancellable = true)
-	private void naturalSpawnsSetNaturalState(ItemPlacementContext ctx, CallbackInfoReturnable<BlockState> cir){
-		if(ctx.getPlayer() != null){
-			cir.setReturnValue(cir.getReturnValue().with(NS_NATURAL, true));
+	@Inject(method = "onBreak", at = @At("HEAD"))
+	private void naturalSpawnsOnBreak(World world, BlockPos pos, BlockState state, PlayerEntity player, CallbackInfo ci){
+		if(!world.isClient()) {
+			NSChunkComponent chunkComponent = NSComponents.NATURAL_SPAWNS_CHUNK.get(world.getChunk(pos));
+			HashSet<BlockPos> placed = chunkComponent.getPlaced();
+			if (placed.contains(pos)) {
+				placed.remove(pos);
+				chunkComponent.save();
+				System.out.println("Removed");
+			}
 		}
 	}
 }

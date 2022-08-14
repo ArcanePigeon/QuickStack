@@ -21,6 +21,7 @@ public class NaturalSpawns implements ModInitializer {
 	public static ConfigHolder<NSConfig> configHolder;
 	public static NSConfig loadedConfig;
 
+
 	@Override
 	public void onInitialize () {
 		AutoConfig.register(NSConfig.class, Toml4jConfigSerializer::new);

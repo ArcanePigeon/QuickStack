@@ -33,7 +33,7 @@ repositories {
         url = "https://maven.terraformersmc.com/"
     }
     maven {
-        name = "Ladysnake Libs"
+        name = "Ladysnake Libs, Cardinal components"
         url = "https://ladysnake.jfrog.io/artifactory/mods"
     }
     // cloth config
@@ -54,6 +54,9 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
     modImplementation "dev.emi:trinkets:${project.trinkets_version}"
+
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinal_components_version}"
+    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${cardinal_components_version}"
 }
 
 processResources {

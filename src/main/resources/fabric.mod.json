@@ -26,6 +26,14 @@
     ],
     "modmenu": [
       "org.cloudwarp.naturalspawns.utils.NSModMenu"
+    ],
+    "cardinal-components": [
+      "org.cloudwarp.naturalspawns.registry.NSComponents"
+    ]
+  },
+  "custom": {
+    "cardinal-components": [
+      "naturalspawns:ns_chunk"
     ]
   },
   "mixins": [

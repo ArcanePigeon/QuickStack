@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "doodads:natural_glove",
-    "doodads:unnatural_glove"
+    "naturalspawns:natural_glove",
+    "naturalspawns:unnatural_glove"
   ]
 }
