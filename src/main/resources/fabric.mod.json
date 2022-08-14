@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "id": "naturalspawns",
+  "version": "${version}",
+
+  "name": "Natural Spawns",
+  "description": "Prevents mobs from spawning on placed blocks",
+  "authors": [
+    "ArcanePigeon"
+  ],
+  "contact": {
+    "homepage": "https://cloudwarp.org/",
+    "sources": "https://github.com/ArcanePigeon/Doodads.git"
+  },
+  "accessWidener": "naturalspawns.accesswidener",
+  "license": "CC0-1.0",
+  "icon": "assets/naturalspawns/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "org.cloudwarp.naturalspawns.NaturalSpawns"
+    ],
+    "client": [
+      "org.cloudwarp.naturalspawns.client.NaturalSpawnsClient"
+    ],
+    "modmenu": [
+      "org.cloudwarp.naturalspawns.utils.NSModMenu"
+    ]
+  },
+  "mixins": [
+    "naturalspawns.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric": "*",
+    "minecraft": ">=1.18",
+    "java": ">=17"
+  }
+}
