@@ -16,6 +16,7 @@ public class QSConfig implements ConfigData {
 		@ConfigEntry.BoundedDiscrete(min = 0,max = 100)
 		public int     maxContainersPerDump        = 50;
 		public boolean enableQuickStackOutputInfo  = true;
+		public boolean stopAfterFillingStacks      = false;
 		//public boolean enableFavorites             = true;
 
 }

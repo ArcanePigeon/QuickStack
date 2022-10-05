@@ -6,6 +6,7 @@
   "text.autoconfig.quickstack.option.searchRadius": "Container Search Radius",
   "text.autoconfig.quickstack.option.maxContainersPerDump": "Max Containers Per Dump",
   "text.autoconfig.quickstack.option.enableQuickStackOutputInfo": "Enable Chat Output Details",
+  "text.autoconfig.quickstack.option.stopAfterFillingStacks": "Should Stop Depositing After Existing Stacks Are Full",
   "key.category.quickstack": "Quick Stack",
   "key.quickstack.dump": "Dump",
   "key.quickstack.quick_stack": "Quick Stack"

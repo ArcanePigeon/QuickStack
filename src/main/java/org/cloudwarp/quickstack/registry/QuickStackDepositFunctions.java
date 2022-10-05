@@ -50,7 +50,7 @@ public class QuickStackDepositFunctions {
 				return;
 			}
 			boolean didDeposit = false;
-			for (int j = 0; j < playerInventory.size(); ++ j) {
+			for (int j = 0; j < 36; ++ j) {
 				if (config.ignoreHotbar && j < 9) {
 					continue;
 				}
@@ -58,10 +58,11 @@ public class QuickStackDepositFunctions {
 					ItemStack itemStack = playerInventory.getStack(j).copy();
 					Set<Item> itemSet = new HashSet<>();
 					itemSet.add(itemStack.getItem());
-					if(quickStack && !inventory.containsAny(itemSet)){
+					boolean hasItem = inventory.containsAny(itemSet);
+					if(quickStack && !hasItem){
 						continue;
 					}
-					ItemStack itemStack2 = transfer(playerInventory, inventory, playerInventory.removeStack(j, itemStack.getCount()));
+					ItemStack itemStack2 = transfer(playerInventory, inventory, playerInventory.removeStack(j, itemStack.getCount()), hasItem && quickStack);
 					//markDirty(world,blockPos,world.getBlockState(blockPos));
 					if (itemStack2.isEmpty()) {
 						inventory.markDirty();
@@ -85,10 +86,23 @@ public class QuickStackDepositFunctions {
 		}
 	}
 
-	public static ItemStack transfer (@Nullable Inventory from, Inventory to, ItemStack stack) {
+	public static ItemStack transfer (@Nullable Inventory from, Inventory to, ItemStack stack, boolean hasItem) {
 		int j = to.size();
-		for (int k = 0; k < j && ! stack.isEmpty(); ++ k) {
-			stack = transfer(from, to, stack, k);
+		if(hasItem) {
+			for (int k = 0; k < j && ! stack.isEmpty(); ++ k) {
+				if(to.getStack(k).isOf(stack.getItem())) {
+					stack = transfer(from, to, stack, k);
+				}
+			}
+			if(!QuickStack.getConfig().stopAfterFillingStacks) {
+				for (int k = 0; k < j && ! stack.isEmpty(); ++ k) {
+					stack = transfer(from, to, stack, k);
+				}
+			}
+		}else{
+			for (int k = 0; k < j && ! stack.isEmpty(); ++ k) {
+				stack = transfer(from, to, stack, k);
+			}
 		}
 		return stack;
 	}
