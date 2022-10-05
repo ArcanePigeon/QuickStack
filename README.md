@@ -1,9 +1,9 @@
-# Doodads
-A Fabric mod for Minecraft that prevents mobs from spawning on placed blocks.
+# QuickStack
+A Fabric mod for Minecraft that allows the player to quick stack items to nearby chests.
 
 ## Releases
-[CurseForge](https://www.curseforge.com/minecraft/mc-mods/natural-spawns)
+[CurseForge]()
 
 ## Information
-[Wiki](https://cloudwarp.org/projects/natural-spawns/})
+[Wiki]()
 
