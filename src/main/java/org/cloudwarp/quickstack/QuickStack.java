@@ -20,7 +20,6 @@ public class QuickStack implements ModInitializer {
 		return new Identifier(MOD_ID, path);
 	}
 	public static ConfigHolder<QSConfig> configHolder;
-	public static QSConfig loadedConfig;
 
 
 	@Override
@@ -28,7 +27,7 @@ public class QuickStack implements ModInitializer {
 		AutoConfig.register(QSConfig.class, Toml4jConfigSerializer::new);
 		configHolder = AutoConfig.getConfigHolder(QSConfig.class);
 		QSEventHandler.registerEvents();
-		QuickStackMessages.registerS2C();
+		QuickStackMessages.registerC2S();
 	}
 
 	public static QSConfig getConfig() {

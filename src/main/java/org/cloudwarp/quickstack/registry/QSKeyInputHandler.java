@@ -1,5 +1,7 @@
 package org.cloudwarp.quickstack.registry;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -15,6 +17,7 @@ import org.lwjgl.glfw.GLFW;
 
 import java.awt.im.InputContext;
 
+@Environment(EnvType.CLIENT)
 public class QSKeyInputHandler {
 	public static final String KEY_CATEGORY_QUICK_STACK = "key.category.quickstack";
 	public static final String KEY_QUICK_STACK = "key.quickstack.quick_stack";
@@ -28,23 +31,25 @@ public class QSKeyInputHandler {
 		QSConfig config = QuickStack.getConfig();
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			if(InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),KeyBindingHelper.getBoundKeyOf(quickStackKey).getCode())){
-				if(!isQuickStackPressed && config.enableQuickStackFeature) {
-					ClientPlayNetworking.send(QuickStackMessages.QUICK_STACK_ID, PacketByteBufs.create());
-					isQuickStackPressed = true;
-				}
-			}else{
-				isQuickStackPressed = false;
-			}
-			if(InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(),KeyBindingHelper.getBoundKeyOf(dumpKey).getCode())){
-				if(!isDumpPressed && config.enableDumpFeature) {
-					ClientPlayNetworking.send(QuickStackMessages.DUMP_ID, PacketByteBufs.create());
-					isDumpPressed = true;
-				}
-			}else{
-				isDumpPressed = false;
-			}
+			if (client.player != null) {
+				if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), KeyBindingHelper.getBoundKeyOf(quickStackKey).getCode())) {
+					if (! isQuickStackPressed && config.enableQuickStackFeature) {
+						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.QUICK_STACK_ID, PacketByteBufs.empty()));
 
+						isQuickStackPressed = true;
+					}
+				} else {
+					isQuickStackPressed = false;
+				}
+				if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), KeyBindingHelper.getBoundKeyOf(dumpKey).getCode())) {
+					if (! isDumpPressed && config.enableDumpFeature) {
+						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.DUMP_ID, PacketByteBufs.empty()));
+						isDumpPressed = true;
+					}
+				} else {
+					isDumpPressed = false;
+				}
+			}
 		});
 	}
 

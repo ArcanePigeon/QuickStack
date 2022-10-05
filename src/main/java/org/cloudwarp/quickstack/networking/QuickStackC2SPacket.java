@@ -9,9 +9,6 @@ import org.cloudwarp.quickstack.registry.QuickStackDepositFunctions;
 
 public class QuickStackC2SPacket {
 	public static void receive(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender){
-		server.execute(() -> {
-			QuickStackDepositFunctions.findNearbyChests(player, true);
-			return;
-		});
+		server.execute(() -> QuickStackDepositFunctions.findNearbyChests(player, true));
 	}
 }

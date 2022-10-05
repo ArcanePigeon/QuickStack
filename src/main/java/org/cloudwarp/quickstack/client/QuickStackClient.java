@@ -14,7 +14,7 @@ public class QuickStackClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient () {
+		QuickStackMessages.registerS2C();
 		QSKeyInputHandler.init();
-		QuickStackMessages.registerC2S();
 	}
 }
