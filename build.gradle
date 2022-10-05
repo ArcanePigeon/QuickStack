@@ -1,6 +1,6 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
-    id 'io.github.juuxel.loom-quiltflower' version '1.7.1'
+    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'io.github.juuxel.loom-quiltflower' version '1.+'
     id 'maven-publish'
 }
 
@@ -12,8 +12,7 @@ version = project.mod_version
 group = project.maven_group
 
 loom {
-    accessWidenerPath = file("src/main/resources/naturalspawns.accesswidener")
-
+    accessWidenerPath = file("src/main/resources/quickstack.accesswidener")
 }
 
 
@@ -53,10 +52,6 @@ dependencies {
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-    modImplementation "dev.emi:trinkets:${project.trinkets_version}"
-
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${cardinal_components_version}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${cardinal_components_version}"
 }
 
 processResources {

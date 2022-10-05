@@ -1,49 +1,41 @@
 {
   "schemaVersion": 1,
-  "id": "naturalspawns",
+  "id": "quickstack",
   "version": "${version}",
 
-  "name": "Natural Spawns",
-  "description": "Prevents mobs from spawning on placed blocks",
+  "name": "Quick Stack [Fabric]",
+  "description": "Automatically stack items into nearby chests",
   "authors": [
     "ArcanePigeon"
   ],
   "contact": {
     "homepage": "https://cloudwarp.org/",
-    "sources": "https://github.com/ArcanePigeon/Doodads.git"
+    "sources": "https://github.com/ArcanePigeon/QuickStack.git"
   },
-  "accessWidener": "naturalspawns.accesswidener",
+  "accessWidener": "quickstack.accesswidener",
   "license": "CC0-1.0",
-  "icon": "assets/naturalspawns/icon.png",
+  "icon": "assets/quickstack/icon.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "org.cloudwarp.naturalspawns.NaturalSpawns"
+      "org.cloudwarp.quickstack.QuickStack"
     ],
     "client": [
-      "org.cloudwarp.naturalspawns.client.NaturalSpawnsClient"
+      "org.cloudwarp.quickstack.client.QuickStackClient"
     ],
     "modmenu": [
-      "org.cloudwarp.naturalspawns.utils.NSModMenu"
-    ],
-    "cardinal-components": [
-      "org.cloudwarp.naturalspawns.registry.NSComponents"
-    ]
-  },
-  "custom": {
-    "cardinal-components": [
-      "naturalspawns:ns_chunk"
+      "org.cloudwarp.quickstack.utils.QSModMenu"
     ]
   },
   "mixins": [
-    "naturalspawns.mixins.json"
+    "quickstack.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.14.9",
     "fabric": "*",
-    "minecraft": ">=1.18",
+    "minecraft": ">=1.19",
     "java": ">=17"
   }
 }

@@ -1,0 +1,12 @@
+{
+  "text.autoconfig.quickstack.title": "Quick Stack",
+  "text.autoconfig.quickstack.option.enableDumpFeature": "Enable Dump Feature",
+  "text.autoconfig.quickstack.option.enableQuickStackFeature": "Enable Quick Stack Feature",
+  "text.autoconfig.quickstack.option.ignoreHotbar": "Ignore Hotbar",
+  "text.autoconfig.quickstack.option.searchRadius": "Container Search Radius",
+  "text.autoconfig.quickstack.option.maxContainersPerDump": "Max Containers Per Dump",
+  "text.autoconfig.quickstack.option.enableQuickStackOutputInfo": "Enable Chat Output Details",
+  "key.category.quickstack": "Quick Stack",
+  "key.quickstack.dump": "Dump",
+  "key.quickstack.quick_stack": "Quick Stack"
+}
