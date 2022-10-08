@@ -1,5 +1,6 @@
 package org.cloudwarp.quickstack.registry;
 
+import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -44,7 +45,7 @@ public class QSKeyInputHandler {
 
 				if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), KeyBindingHelper.getBoundKeyOf(quickStackKey).getCode())) {
 					if (! isQuickStackPressed && config.enableQuickStackFeature) {
-						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.QUICK_STACK_ID, PacketByteBufs.empty()));
+						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.QUICK_STACK_ID, config.writeConfig()));
 
 						isQuickStackPressed = true;
 					}
@@ -53,7 +54,7 @@ public class QSKeyInputHandler {
 				}
 				if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), KeyBindingHelper.getBoundKeyOf(dumpKey).getCode())) {
 					if (! isDumpPressed && config.enableDumpFeature) {
-						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.DUMP_ID, PacketByteBufs.empty()));
+						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.DUMP_ID, config.writeConfig()));
 						isDumpPressed = true;
 					}
 				} else {
