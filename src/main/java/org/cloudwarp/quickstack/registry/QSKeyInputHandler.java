@@ -24,30 +24,15 @@ public class QSKeyInputHandler {
 	public static final String KEY_DUMP = "key.quickstack.dump";
 	public static KeyBinding quickStackKey;
 	public static KeyBinding dumpKey;
-	public static boolean isQuickStackPressed = false;
-	public static boolean isDumpPressed = false;
 
 	public static void registerKeyInputs () {
-		QSConfig config = QuickStack.getConfig();
-
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (client.player != null) {
-				if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), KeyBindingHelper.getBoundKeyOf(quickStackKey).getCode())) {
-					if (! isQuickStackPressed && config.enableQuickStackFeature) {
-						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.QUICK_STACK_ID, PacketByteBufs.empty()));
-
-						isQuickStackPressed = true;
-					}
-				} else {
-					isQuickStackPressed = false;
+				if (quickStackKey.wasPressed()) {
+					client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.QUICK_STACK_ID, PacketByteBufs.empty()));
 				}
-				if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), KeyBindingHelper.getBoundKeyOf(dumpKey).getCode())) {
-					if (! isDumpPressed && config.enableDumpFeature) {
-						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.DUMP_ID, PacketByteBufs.empty()));
-						isDumpPressed = true;
-					}
-				} else {
-					isDumpPressed = false;
+				if (dumpKey.wasPressed()) {
+					client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.DUMP_ID, PacketByteBufs.empty()));
 				}
 			}
 		});
