@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
+import net.minecraft.client.gui.screen.ingame.GenericContainerScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.PacketByteBuf;
@@ -31,7 +32,7 @@ public class QSKeyInputHandler {
 	public static boolean isDumpPressed = false;
 
 	static boolean isAllowedScreen(Screen screen) {
-		return screen instanceof AbstractInventoryScreen<?>;
+		return screen instanceof AbstractInventoryScreen || screen instanceof GenericContainerScreen;
 	}
 
 	public static void registerKeyInputs () {

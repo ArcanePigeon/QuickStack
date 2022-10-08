@@ -19,3 +19,9 @@ All notable changes to this project will be documented in this file.
 - Quick stacking will now start by filling existing stacks
 ### Added
 - Option to stop quick stacking of an item once the stack has been filled
+
+## [0.1.3] - 10/8/2022
+### Fixed
+- Item dupe glitch
+- Keybindings worked outside of inventory screens
+- Client config not properly used server side
