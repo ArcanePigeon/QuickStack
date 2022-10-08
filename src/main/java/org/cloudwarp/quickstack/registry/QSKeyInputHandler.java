@@ -7,6 +7,8 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.AbstractInventoryScreen;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.PacketByteBuf;
@@ -24,15 +26,38 @@ public class QSKeyInputHandler {
 	public static final String KEY_DUMP = "key.quickstack.dump";
 	public static KeyBinding quickStackKey;
 	public static KeyBinding dumpKey;
+	public static boolean isQuickStackPressed = false;
+	public static boolean isDumpPressed = false;
+
+	static boolean isAllowedScreen(Screen screen) {
+		return screen instanceof AbstractInventoryScreen<?>;
+	}
 
 	public static void registerKeyInputs () {
+		QSConfig config = QuickStack.getConfig();
+
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			if (client.player != null) {
-				if (quickStackKey.wasPressed()) {
-					client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.QUICK_STACK_ID, PacketByteBufs.empty()));
+				if (client.currentScreen != null && !isAllowedScreen(client.currentScreen)) {
+					return;
 				}
-				if (dumpKey.wasPressed()) {
-					client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.DUMP_ID, PacketByteBufs.empty()));
+
+				if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), KeyBindingHelper.getBoundKeyOf(quickStackKey).getCode())) {
+					if (! isQuickStackPressed && config.enableQuickStackFeature) {
+						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.QUICK_STACK_ID, PacketByteBufs.empty()));
+
+						isQuickStackPressed = true;
+					}
+				} else {
+					isQuickStackPressed = false;
+				}
+				if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), KeyBindingHelper.getBoundKeyOf(dumpKey).getCode())) {
+					if (! isDumpPressed && config.enableDumpFeature) {
+						client.execute(() -> ClientPlayNetworking.send(QuickStackMessages.DUMP_ID, PacketByteBufs.empty()));
+						isDumpPressed = true;
+					}
+				} else {
+					isDumpPressed = false;
 				}
 			}
 		});
