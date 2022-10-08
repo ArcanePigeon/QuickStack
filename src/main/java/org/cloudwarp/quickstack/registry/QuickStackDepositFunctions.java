@@ -70,10 +70,12 @@ public class QuickStackDepositFunctions {
 						didDeposit = true;
 						continue;
 					}
+
+
 					itemsDeposited.addAndGet((itemStack.getCount() - itemStack2.getCount()));
 					didDeposit = true;
 
-					playerInventory.setStack(j, itemStack);
+					playerInventory.setStack(j, itemStack2);
 				}
 			}
 			if(didDeposit){
