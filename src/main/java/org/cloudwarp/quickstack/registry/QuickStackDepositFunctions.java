@@ -26,11 +26,10 @@ import java.util.stream.IntStream;
 
 public class QuickStackDepositFunctions {
 	private static Set<Identifier> chestBlocks = new HashSet<>();
-	public static void findNearbyChests (ServerPlayerEntity player, boolean quickStack) {
+	public static void findNearbyChests (ServerPlayerEntity player, boolean quickStack, QSConfig config) {
 		World world = player.getWorld();
 		Inventory playerInventory = player.getInventory();
 		chestBlocks = new HashSet<>();
-		QSConfig config = QuickStack.getConfig();
 		AtomicInteger chestsDepositedInto = new AtomicInteger();
 		AtomicInteger itemsDeposited = new AtomicInteger();
 		BlockPos.iterateOutwards(player.getBlockPos(),config.searchRadius,config.searchRadius,config.searchRadius).forEach(blockPos -> {
@@ -62,7 +61,7 @@ public class QuickStackDepositFunctions {
 					if(quickStack && !hasItem){
 						continue;
 					}
-					ItemStack itemStack2 = transfer(playerInventory, inventory, playerInventory.removeStack(j, itemStack.getCount()), hasItem && quickStack);
+					ItemStack itemStack2 = transfer(playerInventory, inventory, playerInventory.removeStack(j, itemStack.getCount()), hasItem && quickStack, config);
 					//markDirty(world,blockPos,world.getBlockState(blockPos));
 					if (itemStack2.isEmpty()) {
 						inventory.markDirty();
@@ -88,7 +87,7 @@ public class QuickStackDepositFunctions {
 		}
 	}
 
-	public static ItemStack transfer (@Nullable Inventory from, Inventory to, ItemStack stack, boolean hasItem) {
+	public static ItemStack transfer (@Nullable Inventory from, Inventory to, ItemStack stack, boolean hasItem, QSConfig config) {
 		int j = to.size();
 		if(hasItem) {
 			for (int k = 0; k < j && ! stack.isEmpty(); ++ k) {
@@ -96,7 +95,7 @@ public class QuickStackDepositFunctions {
 					stack = transfer(from, to, stack, k);
 				}
 			}
-			if(!QuickStack.getConfig().stopAfterFillingStacks) {
+			if(!config.stopAfterFillingStacks) {
 				for (int k = 0; k < j && ! stack.isEmpty(); ++ k) {
 					stack = transfer(from, to, stack, k);
 				}
